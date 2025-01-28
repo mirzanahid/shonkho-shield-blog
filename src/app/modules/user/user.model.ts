@@ -39,6 +39,19 @@ const userSchema = new Schema<TUser>(
   }
 );
 
+
+
+userSchema.pre("save", function (next) {
+  if (this.isModified("name") || this.isNew) {
+    this.name = this.name
+      .split(" ")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+      .join(" ");
+  }
+  next();
+});
+
+
 userSchema.pre("save", async function (next) {
   // eslint-disable-next-line @typescript-eslint/no-this-alias
   const user = this; // doc
@@ -54,5 +67,9 @@ userSchema.post("save", function (doc, next) {
   doc.password = "";
   next();
 });
+
+
+
+
 
 export const User = model<TUser>("User", userSchema);

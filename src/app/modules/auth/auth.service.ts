@@ -6,9 +6,9 @@ import { TLoginUser } from "./auth.interface";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import config from "../../config";
+
 const userRegisteredIntoDB = async (payload: TUser) => {
   const result = await User.create(payload);
-
   return result;
 };
 
@@ -40,7 +40,7 @@ const userLoginIntoDB = async (payload: TLoginUser) => {
   }
 
   const token = jwt.sign(
-    { email: user?.email, role: user?.role },
+    { email: user?.email, role: user?.role, userId: user?._id },
     `${config.jwt_access_secret}`,
     {
       expiresIn: "1d",

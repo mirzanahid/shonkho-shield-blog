@@ -1,22 +1,26 @@
 import catchAsync from "../../utils/catchAsync";
 import sendResponse from "../../utils/sendResponse";
-import httpStatus from "http-status";
 import { BlogServices } from "./blog.service";
+import status from "http-status";
 
 const createBlog = catchAsync(async (req, res) => {
-  const result = await BlogServices.createBlogIntoDB(req.body);
+  const userEmail = req.user?.email;
+  const result = await BlogServices.createBlogIntoDB(req.body, userEmail);
   sendResponse(res, {
-    statusCode: httpStatus.CREATED,
+    statusCode: status.CREATED,
     success: true,
     message: "Blog created successfully",
     data: result,
   });
 });
+
 const updateBlog = catchAsync(async (req, res) => {
+  const userId = req.user?.userId;
+  // console.log(req.user)
   const { id } = req.params;
-  const result = await BlogServices.updateBlogIntoDB(id, req.body);
+  const result = await BlogServices.updateBlogIntoDB(id,req.body,userId);
   sendResponse(res, {
-    statusCode: httpStatus.OK,
+    statusCode: status.OK,
     success: true,
     message: "Blog updated successfully",
     data: result,
@@ -24,19 +28,21 @@ const updateBlog = catchAsync(async (req, res) => {
 });
 
 const deleteBlog = catchAsync(async (req, res) => {
+  const userId = req.user?.userId
   const { id } = req.params;
-  await BlogServices.deleteBlogIntoDB(id);
+  await BlogServices.deleteBlogIntoDB(id,userId);
   sendResponse(res, {
-    statusCode: httpStatus.OK,
+    statusCode: status.OK,
     success: true,
     message: "Blog deleted successfully",
     data: "",
   });
 });
+
 const getAllBlogs = catchAsync(async (req, res) => {
   const result = await BlogServices.getAllBlogFromDB(req.query);
   sendResponse(res, {
-    statusCode: httpStatus.OK,
+    statusCode: status.OK,
     success: true,
     message: "Blogs fetched successfully",
     data: result,

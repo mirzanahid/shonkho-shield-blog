@@ -3,15 +3,29 @@ import { userRole } from "./user.constant";
 
 const userValidationShcema = z.object({
   body: z.object({
-    name: z.string({ required_error: "Name is required." }),
+    name: z
+      .string()
+      .trim()
+      .min(1, "Name cannot be empty or contain only spaces")
+      .refine((value) => !/^\s*$/.test(value), {
+        message: "Name cannot contain only spaces",
+      }),
     email: z.string({ required_error: "Email is required." }).email(),
-    role: z.enum([...(userRole as [string, ...string[]])]).optional(),
-    pasword: z
-      .string({
-        invalid_type_error: "Password must be string",
-        required_error: "Password is required.",
+    role: z
+      .enum([...(userRole as [string, ...string[]])], {
+        errorMap: () => ({
+          message: "Invalid role! Allowed roles are admin or user",
+        }),
       })
-      .max(20, { message: "Password can not be more than 20 characters" }),
+      .optional(),
+    password: z
+      .string()
+      .trim()
+      .min(1, "Password cannot be empty or only spaces")
+      .max(20, "Password cannot be more than 20 characters")
+      .refine((password) => !/^\s*$/.test(password), {
+        message: "Password cannot contain only spaces",
+      }),
     isBlocked: z.boolean().optional(),
   }),
 });
