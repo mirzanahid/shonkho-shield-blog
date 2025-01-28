@@ -21,11 +21,11 @@ const deleteBlogIntoDB = async (id: string) => {
   return result;
 };
 const getAllBlogFromDB = async (query: Record<string, unknown>) => {
-  const blogQuery = new QueryBuilder(BlogModel.find().populate('author'), query)
+  const blogQuery = new QueryBuilder(BlogModel.find().populate("author"), query)
     .search(BlogSearchableFields)
-    .sortBy()
     .sortOrder()
-    .filter();
+    .filter()
+    .sortBy();
   const result = await blogQuery.modelQuery;
   return result;
 };
