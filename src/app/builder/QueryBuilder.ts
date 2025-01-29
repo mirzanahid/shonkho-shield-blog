@@ -1,4 +1,4 @@
-import { FilterQuery, Query } from "mongoose";
+import { FilterQuery, Query } from 'mongoose';
 
 class QueryBuilder<T> {
   public modelQuery: Query<T[], T>;
@@ -16,8 +16,8 @@ class QueryBuilder<T> {
         $or: searchableFields.map(
           (field) =>
             ({
-              [field]: { $regex: search, $options: "i" },
-            } as FilterQuery<T>)
+              [field]: { $regex: search, $options: 'i' },
+            }) as FilterQuery<T>
         ),
       });
     }
@@ -27,22 +27,22 @@ class QueryBuilder<T> {
   // sort by fields
   sortBy() {
     const sortBy =
-      (this?.query?.sortBy as string)?.split(",")?.join(" ") || "-__v";
+      (this?.query?.sortBy as string)?.split(',')?.join(' ') || '-__v';
     this.modelQuery = this.modelQuery.select(sortBy);
     return this;
   }
 
   // sort by ascending or descending on createdAt
   sortOrder() {
-    let sortValue = "-createdAt";
+    let sortValue = '-createdAt';
     const sortOrder = this?.query?.sortOrder;
-    if (typeof sortOrder === "string") {
+    if (typeof sortOrder === 'string') {
       const lowerCaseSortOrder = sortOrder.toLowerCase();
 
-      if (lowerCaseSortOrder === "asc") {
-        sortValue = "createdAt"; // Ascending order
-      } else if (lowerCaseSortOrder === "desc") {
-        sortValue = "-createdAt"; // Descending order
+      if (lowerCaseSortOrder === 'asc') {
+        sortValue = 'createdAt'; // Ascending order
+      } else if (lowerCaseSortOrder === 'desc') {
+        sortValue = '-createdAt'; // Descending order
       }
     }
     this.modelQuery = this.modelQuery.sort(sortValue as string);
@@ -52,7 +52,7 @@ class QueryBuilder<T> {
   // filter by author id
   filter() {
     const queryObj = { ...this.query };
-    const excludeFields = ["search", "sortBy", "sortOrder"];
+    const excludeFields = ['search', 'sortBy', 'sortOrder'];
     excludeFields.forEach((field) => delete queryObj[field]);
     if (this.query.filter) {
       this.modelQuery = this.modelQuery.find({ author: this.query.filter });

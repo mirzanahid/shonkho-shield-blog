@@ -1,26 +1,29 @@
-import { model, Schema } from "mongoose";
-import { TBlog } from "./blog.interface";
+import { model, Schema } from 'mongoose';
+import { TBlog } from './blog.interface';
 
 const blogSchema = new Schema<TBlog>(
   {
     title: {
       type: String,
-      required: true,
+      required: [true, 'Title is required'],
+      trim: true,
     },
 
     content: {
       type: String,
-      required: true,
+      required: [true, 'Content is required'],
+      trim: true,
     },
 
     author: {
       type: Schema.Types.ObjectId,
-      required: [true, "user id is required"],
-      ref: "User",
+      required: [true, 'user id is required'],
+      ref: 'User',
     },
     isPublished: {
       type: Boolean,
       default: true,
+      select: false,
     },
   },
   {
@@ -28,4 +31,4 @@ const blogSchema = new Schema<TBlog>(
   }
 );
 
-export const BlogModel = model<TBlog>("Blog", blogSchema);
+export const BlogModel = model<TBlog>('Blog', blogSchema);

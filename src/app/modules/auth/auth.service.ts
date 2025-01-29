@@ -1,11 +1,11 @@
-import status from "http-status";
-import AppError from "../../errors/AppError";
-import { TUser } from "../user/user.interface";
-import { User } from "../user/user.model";
-import { TLoginUser } from "./auth.interface";
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
-import config from "../../config";
+import status from 'http-status';
+import AppError from '../../errors/AppError';
+import { TUser } from '../user/user.interface';
+import { User } from '../user/user.model';
+import { TLoginUser } from './auth.interface';
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import config from '../../config';
 
 const userRegisteredIntoDB = async (payload: TUser) => {
   const result = await User.create(payload);
@@ -14,11 +14,11 @@ const userRegisteredIntoDB = async (payload: TUser) => {
 
 const userLoginIntoDB = async (payload: TLoginUser) => {
   const user = await User.findOne({ email: payload?.email }).select(
-    "+password"
+    '+password'
   );
 
   if (!user) {
-    throw new AppError(status.UNAUTHORIZED, "Invalid credentials");
+    throw new AppError(status.UNAUTHORIZED, 'Invalid credentials');
   }
 
   const userStatus = user?.isBlocked;
@@ -26,7 +26,7 @@ const userLoginIntoDB = async (payload: TLoginUser) => {
   if (userStatus) {
     throw new AppError(
       status.FORBIDDEN,
-      "Access denied. Your account has been blocked."
+      'Access denied. Your account has been blocked.'
     );
   }
 
@@ -36,14 +36,14 @@ const userLoginIntoDB = async (payload: TLoginUser) => {
   );
 
   if (!isPasswordMatch) {
-    throw new AppError(status.UNAUTHORIZED, "Invalid credentials");
+    throw new AppError(status.UNAUTHORIZED, 'Invalid credentials');
   }
 
   const token = jwt.sign(
     { email: user?.email, role: user?.role, userId: user?._id },
     `${config.jwt_access_secret}`,
     {
-      expiresIn: "1d",
+      expiresIn: '1d',
     }
   );
 

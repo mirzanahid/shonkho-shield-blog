@@ -1,31 +1,31 @@
-import { model, Schema } from "mongoose";
-import { TUser } from "./user.interface";
-import { userRole } from "./user.constant";
-import bcrypt from "bcrypt";
-import config from "../../config";
+import { model, Schema } from 'mongoose';
+import { TUser } from './user.interface';
+import { userRole } from './user.constant';
+import bcrypt from 'bcrypt';
+import config from '../../config';
 
 const userSchema = new Schema<TUser>(
   {
     name: {
       type: String,
-      required: [true, "Name is required"],
+      required: [true, 'Name is required'],
     },
 
     email: {
       type: String,
-      required: [true, "Email is required"],
+      required: [true, 'Email is required'],
       unique: true,
     },
     password: {
       type: String,
-      required: [true, "Password is required"],
+      required: [true, 'Password is required'],
       select: false,
     },
 
     role: {
       type: String,
       enum: userRole,
-      default: "user",
+      default: 'user',
       required: true,
     },
     isBlocked: {
@@ -39,20 +39,17 @@ const userSchema = new Schema<TUser>(
   }
 );
 
-
-
-userSchema.pre("save", function (next) {
-  if (this.isModified("name") || this.isNew) {
+userSchema.pre('save', function (next) {
+  if (this.isModified('name') || this.isNew) {
     this.name = this.name
-      .split(" ")
+      .split(' ')
       .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-      .join(" ");
+      .join(' ');
   }
   next();
 });
 
-
-userSchema.pre("save", async function (next) {
+userSchema.pre('save', async function (next) {
   // eslint-disable-next-line @typescript-eslint/no-this-alias
   const user = this; // doc
   // hashing password and save into DB
@@ -63,13 +60,9 @@ userSchema.pre("save", async function (next) {
   next();
 });
 
-userSchema.post("save", function (doc, next) {
-  doc.password = "";
+userSchema.post('save', function (doc, next) {
+  doc.password = '';
   next();
 });
 
-
-
-
-
-export const User = model<TUser>("User", userSchema);
+export const User = model<TUser>('User', userSchema);

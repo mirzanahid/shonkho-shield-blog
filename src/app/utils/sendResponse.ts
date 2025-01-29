@@ -1,4 +1,4 @@
-import { Response } from "express";
+import { Response } from 'express';
 
 type TResponse<T> = {
   statusCode: number;
@@ -7,13 +7,25 @@ type TResponse<T> = {
   data: T;
 };
 
-const sendResponse = <T>(res: Response, data: TResponse<T>) => {
-  res.status(data?.statusCode).json({
-    success: data.success,
-    message: data.message,
-    statusCode: data?.statusCode,
-    data: data.data,
-  });
+const sendResponse = <T>(res: Response, responseData: TResponse<T>) => {
+  const { statusCode, success, message, data } = responseData;
+
+  const responseBody: Record<string, unknown> = {
+    success,
+    message,
+    statusCode,
+  };
+
+  if (data && Object.keys(data as object).length > 0) responseBody.data = data; // Add `data` only if it's not empty
+
+  res.status(statusCode).json(responseBody);
+
+  // res.status(data?.statusCode).json({
+  //   success: data.success,
+  //   message: data.message,
+  //   statusCode: data?.statusCode,
+  //   data: data.data,
+  // });
 };
 
 export default sendResponse;

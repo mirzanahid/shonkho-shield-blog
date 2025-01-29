@@ -1,12 +1,12 @@
-import { z } from "zod";
+import { z } from 'zod';
 
-const userValidationShcema = z.object({
+const blogValidationShcema = z.object({
   body: z.object({
-    title: z.string(),
-    content: z.string(),
+    title: z.string({ required_error: 'Title is required' }),
+    content: z.string({ required_error: 'Title is required' }),
   }),
 });
 
-export const UserValidation = {
-  userValidationShcema,
+export const BlogValidation = {
+  blogValidationShcema,
 };

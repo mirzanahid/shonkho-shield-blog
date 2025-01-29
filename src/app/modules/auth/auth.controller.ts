@@ -1,7 +1,7 @@
-import status from "http-status";
-import catchAsync from "../../utils/catchAsync";
-import sendResponse from "../../utils/sendResponse";
-import { AuthServices } from "./auth.service";
+import status from 'http-status';
+import catchAsync from '../../utils/catchAsync';
+import sendResponse from '../../utils/sendResponse';
+import { AuthServices } from './auth.service';
 
 const registerUser = catchAsync(async (req, res) => {
   const result = await AuthServices.userRegisteredIntoDB(req.body);
@@ -15,7 +15,7 @@ const registerUser = catchAsync(async (req, res) => {
   //  console.log(result)
   sendResponse(res, {
     success: true,
-    message: "User registered successfully",
+    message: 'User registered successfully',
     statusCode: status.CREATED,
     data: filteredResponse,
   });
@@ -25,12 +25,12 @@ const loginUser = catchAsync(async (req, res) => {
   const result = await AuthServices.userLoginIntoDB(req.body);
 
   const data = {
-    token : result.token
-  }
+    token: result.token,
+  };
 
   sendResponse(res, {
     success: true,
-    message: "Login successful",
+    message: 'Login successful',
     statusCode: status.OK,
     data: data,
   });
