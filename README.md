@@ -8,13 +8,14 @@ Shonkho Shield blog is a web-based API Service Application. It Provides API for 
 
 ### Features for Users:
 
-1. **Create Blog** : User can create Blog with title and content (user have to logged-in to create blog),
-2. **Get Blogs** : User can get all the blogs with title, content and author details (any one can see blogs no need to login).
-3. **Get Blogs By Query** : User can get Blog by query with Title or Content with full blog details.
-4. **Seraching, Sorting and Filtering** : User can search , sort and filter blogs.
-5. **Update Blog** : User can update their own blog (user have to logged-in to update blog). 
-6. **Delete Blog** : User can delete their own blog (user have to logged-in to delete blog).
-
+1. **Register User** : User can Register by providing Name, Email and Password.
+2. **Login User** : User can Login using registerd Email and Password.
+3. **Create Blog** : User can create Blog with title and content (user have to logged-in to create blog),
+4. **Get Blogs** : User can get all the blogs with title, content and author details (any one can see blogs no need to login).
+5. **Get Blogs By Query** : User can get Blog by query with Title or Content with full blog details.
+6. **Seraching, Sorting and Filtering** : User can search , sort and filter blogs.
+7. **Update Blog** : User can update their own blog (user have to logged-in to update blog).
+8. **Delete Blog** : User can delete their own blog (user have to logged-in to delete blog).
 
 ### Features for Admin:
 
@@ -34,9 +35,9 @@ Shonkho Shield blog is a web-based API Service Application. It Provides API for 
 1. Node.js and express - As backend framework.
 2. Mongodb with mongoose - For Database Management .
 3. Typescript - As programming language.
-4. Jwt - For secure authentication and authorization 
+4. Jwt - For secure authentication and authorization
 5. http_status - For http status code.
-6. Zod - For validating and parsing data 
+6. Zod - For validating and parsing data
 
 ## Project installation Locally .
 
@@ -58,7 +59,9 @@ npm install;
 ```env
 NODE_ENV=development
 PORT=5000
-DATABASE_URL=mongodb+srv://<USERNAME>:<PASSWORD>@cluster0.vsmf7bv.mongodb.net/stationery-shop?retryWrites=true&w=majority&appName=Cluster0
+DATABASE_URL=mongodb+srv://blog-project:iUtkEReDzSCNPxZP@cluster0.vsmf7bv.mongodb.net/shonkho-shield-blog?retryWrites=true&w=majority&appName=Cluster0
+BCRYPT_SALT_ROUNDS=8
+JWT_ACCESS_SECRET=473d601c7348ebc5ac129f5a47c2a64b8020db26dbf0f2e6e81841f3f8af4f409638ddd03969fbe791bfa1c3d44934821ab32cb56beb852b988a391c039a0e97
 ```
 
 ### Scripts for manage this application.
@@ -90,74 +93,95 @@ npm run lint:fix
 5. To format codes:
 
 ```bash
-npm run format
+npm run prettier
 ```
 
 ## API Endpoints:
 
-# For Product Management:
+### For Authentication :
 
-1. **Create a Product**:
+1. **Register User** :
 
 ```bash
-/api/products
+/api/auth/register
 Method: POST
 ```
 
-2. **Get all Products**:
+2. **Login User** :
 
 ```bash
-/api/products
-Method: GET
+/api/auth/login
+Method: POST
 ```
 
-3. **Get Product by Query Search**:
+### For User Actions :
+
+1. **Create a Blog**:
 
 ```bash
-/api/products?searchTerm=category
-Method: GET
+/api/blogs
+Method: POST
+Request-Header: Authorization: Bearer <token>
 ```
 
-\*SearchTerm can be name, brand, category
-
-4. **Get specific Product by productId**:
+2. **Update Blog**:
 
 ```bash
-/api/products/productId
-Method: GET
+/api/blogs/:id
+Method: PATCH
+Request-Header: Authorization: Bearer <token>
 ```
 
-5. **Update Product**:
+3. **Delete Blog**:
 
 ```bash
-/api/products/productId
-Method: PUT
-```
-
-6. **Delete Product**:
-
-```bash
-/api/products/productId
+/api/blogs/:id
 Method: DELETE
+Request-Header: Authorization: Bearer <token>
 ```
 
-# For Order Management:
-
-1. **Create a Order**:
+4. **Get All Blogs**:
 
 ```bash
-/api/orders
-Method: POST
-```
-
-2. **Get Revenue from Orders**:
-
-```bash
-/api/orders/revenue
+/api/blogs
 Method: GET
+```
+
+5. **Query Blog**:
+
+```bash
+/api/blogs?search=technology&sortBy=createdAt&sortOrder=desc&filter=60b8f42f9c2a3c9b7cbd4f18
+Method: GET
+```
+
+### For Admin Actions :
+
+1. **Block User**:
+
+```bash
+/api/admin/users/:userId/block
+Method: PATCH
+Request-Header: Authorization: Bearer <token>
+```
+
+2. **Delete Blog**:
+
+```bash
+/api/admin/blogs/:id
+Method: DELETE
+Request-Header: Authorization: Bearer <token>
+```
+
+## Admin login crediential:
+
+```bash
+Email : admin@gmail.com,
+Password : 123456
 ```
 
 ## Necessary Links:
 
-1. **Github Link**: https://github.com/mirzanahid/stationery-shop
-2. **Live Links**: https://stationery-shop-git-main-mirzanahids-projects.vercel.app/
+
+
+1. **Live Links**: https://stationery-shop-git-main-mirzanahids-projects.vercel.app/
+2. **Github Link**: https://github.com/mirzanahid/stationery-shop
