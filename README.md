@@ -1,8 +1,8 @@
-# Stationery Shop
+# Shonkho Shield Blog App
 
 ## Overview
 
-Shonkho Shield blog is a web-based API Service Application. It Provides API for managing Blog App. This application used Node.js, Express, TypeScript, MongoDB and Mongoose. It offer easy-to-use features for creating, updating, and deleting blogs. It also helps to readers find, sorting, and filtering blogs.
+Shonkho Shield blog is a web-based API Service Application. It Provides API for managing Blog App. This application used Node.js, Express, TypeScript, MongoDB and Mongoose. It offers easy-to-use features for creating, updating, and deleting blogs. It also helps to readers finding, sorting, and filtering blogs.
 
 ## Features:
 
@@ -24,7 +24,7 @@ Shonkho Shield blog is a web-based API Service Application. It Provides API for 
 
 ### Authentication & Authorization:
 
-#### Admin and User roles are seperated. For creating, updating, deleting and blocking User and Admin have to logged-in.
+#### Admin and User roles are seperated. For creating, updating, deleting and blocking, User and Admin have to logged-in.
 
 ### Error Handlings:
 
@@ -50,11 +50,11 @@ git clone https://github.com/mirzanahid/shonkho-shield-blog.git
 2.  Go to the project directory and Install npm:
 
 ```bash
-cd stationery-shop;
+cd shonkho-shield-blog;
 npm install;
 ```
 
-3. To run this project you need Environment Variables. First create .env file in stationery-shop main directory and add these variables.
+3. To run this project you need Environment Variables. First create .env file in shonkho-shield-blog main directory and add these variables.
 
 ```env
 NODE_ENV=development

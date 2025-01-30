@@ -12,7 +12,6 @@ const registerUser = catchAsync(async (req, res) => {
     email: result?.email,
   };
 
-  //  console.log(result)
   sendResponse(res, {
     success: true,
     message: 'User registered successfully',
