@@ -44,7 +44,7 @@ Shonkho Shield blog is a web-based API Service Application. It Provides API for 
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/mirzanahid/stationery-shop
+git clone https://github.com/mirzanahid/shonkho-shield-blog.git
 ```
 
 2.  Go to the project directory and Install npm:
