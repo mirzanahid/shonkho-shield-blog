@@ -43,10 +43,9 @@ const userLoginIntoDB = async (payload: TLoginUser) => {
     { email: user?.email, role: user?.role, userId: user?._id },
     `${config.jwt_access_secret}`,
     {
-      expiresIn: '1d',
+      expiresIn: `1d`,
     }
   );
-
   return { token, user };
 };
 

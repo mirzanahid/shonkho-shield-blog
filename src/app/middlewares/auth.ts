@@ -8,14 +8,31 @@ import { User } from '../modules/user/user.model';
 
 const auth = (...requiredRole: string[]) => {
   return catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-    const token = req.headers.authorization;
+    const authHeader = req.headers.authorization;
+
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      throw new AppError(
+        status.UNAUTHORIZED,
+        'You must provide a Bearer token!'
+      );
+    }
+
+    const token = authHeader.split(' ')[1];
+
     if (!token) {
       throw new AppError(status.UNAUTHORIZED, 'You are not authorized!');
     }
-    const decoded = jwt.verify(
-      token,
-      config.jwt_access_secret as string
-    ) as JwtPayload;
+    let decoded;
+    try {
+      decoded = jwt.verify(
+        token,
+        config.jwt_access_secret as string
+      ) as JwtPayload;
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (error) {
+      throw new AppError(status.UNAUTHORIZED, 'Invalid or expired token!');
+    }
+
     const { email, role } = decoded;
     const userData = await User.findOne({ email });
     if (!userData) {
